@@ -1,0 +1,816 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>HIKARU TSUTSUI — Film Director & Social Creator</title>
+<meta name="description" content="映像制作者・SNSクリエイター Hikaru Tsutsui のポートフォリオ。Sony、Adobe、Toyota、JFA、TikTok。AIを活用した次世代クリエイティブ。" />
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400;0,6..96,600;0,6..96,900;1,6..96,400&family=JetBrains+Mono:wght@300;400;600&family=Noto+Sans+JP:wght@300;400;700;900&display=swap" rel="stylesheet">
+
+<style>
+  :root{
+    --red:#ff1a2b;
+    --red-deep:#a60714;
+    --red-glow:#ff2d3d;
+    --bg:#060505;
+    --bg-2:#0c0807;
+    --ink:#f4eeea;
+    --ink-dim:#8f8683;
+    --line:rgba(244,238,234,.12);
+    --grain-opacity:.08;
+  }
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  html,body{background:var(--bg);color:var(--ink);font-family:"Noto Sans JP",sans-serif;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+  body{line-height:1.6;cursor:none}
+  a{color:inherit;text-decoration:none}
+  img{max-width:100%;display:block}
+
+  /* ===== Custom Cursor ===== */
+  .cursor-dot,.cursor-ring{position:fixed;top:0;left:0;pointer-events:none;z-index:9999;mix-blend-mode:difference;will-change:transform}
+  .cursor-dot{width:6px;height:6px;background:var(--red);border-radius:50%;transform:translate(-50%,-50%)}
+  .cursor-ring{width:40px;height:40px;border:1px solid rgba(255,255,255,.5);border-radius:50%;transform:translate(-50%,-50%);transition:width .25s,height .25s,border-color .25s,background .25s}
+  .cursor-ring.hover{width:70px;height:70px;border-color:var(--red);background:rgba(255,26,43,.08)}
+  @media(hover:none){body{cursor:auto} .cursor-dot,.cursor-ring{display:none}}
+
+  /* ===== Grain ===== */
+  .grain{position:fixed;inset:-50%;pointer-events:none;z-index:9998;opacity:var(--grain-opacity);mix-blend-mode:overlay}
+  .grain svg{width:100%;height:100%}
+
+  /* ===== Scanline ===== */
+  body::before{
+    content:"";position:fixed;inset:0;pointer-events:none;z-index:9997;
+    background:repeating-linear-gradient(0deg,rgba(255,255,255,.015) 0 1px,transparent 1px 3px);
+    mix-blend-mode:overlay;
+  }
+
+  /* ===== Scroll Progress ===== */
+  .progress{position:fixed;top:0;left:0;width:0%;height:2px;background:linear-gradient(90deg,var(--red-deep),var(--red),var(--red-glow));z-index:9996;transition:width .08s linear;box-shadow:0 0 12px var(--red)}
+
+  /* ===== Nav ===== */
+  nav{position:fixed;top:0;left:0;right:0;z-index:500;padding:28px 48px;display:flex;justify-content:space-between;align-items:center;mix-blend-mode:difference}
+  .logo{font-family:"Bodoni Moda",serif;font-weight:900;font-style:italic;font-size:22px;letter-spacing:-.02em;color:#fff}
+  .logo span{color:var(--red)}
+  .nav-links{display:flex;gap:40px;font-family:"JetBrains Mono",monospace;font-size:12px;letter-spacing:.22em;text-transform:uppercase;color:#fff}
+  .nav-links a{position:relative;padding:4px 0;transition:color .3s}
+  .nav-links a::after{content:"";position:absolute;left:0;bottom:-2px;width:0;height:1px;background:var(--red);transition:width .35s cubic-bezier(.7,0,.3,1)}
+  .nav-links a:hover::after{width:100%}
+  @media(max-width:720px){nav{padding:20px 22px} .nav-links{gap:22px;font-size:10px}}
+
+  /* ===== HERO ===== */
+  .hero{position:relative;min-height:100vh;display:flex;align-items:center;padding:0 48px;overflow:hidden}
+  .hero-bg{position:absolute;inset:0;background:
+    radial-gradient(ellipse at 20% 30%,rgba(255,26,43,.18),transparent 55%),
+    radial-gradient(ellipse at 80% 70%,rgba(166,7,20,.22),transparent 50%),
+    linear-gradient(180deg,#060505,#0c0807 60%,#060505)
+  }
+  .hero-grid{position:absolute;inset:0;background-image:
+    linear-gradient(rgba(255,26,43,.06) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(255,26,43,.06) 1px,transparent 1px);
+    background-size:80px 80px;
+    mask-image:radial-gradient(ellipse at center,black 30%,transparent 75%);
+  }
+
+  .hero-content{position:relative;z-index:2;width:100%;max-width:1600px;margin:0 auto}
+
+  .hero-meta{display:flex;gap:48px;flex-wrap:wrap;font-family:"JetBrains Mono",monospace;font-size:11px;letter-spacing:.25em;color:var(--ink-dim);text-transform:uppercase;margin-bottom:64px;opacity:0;animation:fadeUp 1s .3s forwards}
+  .hero-meta span b{color:var(--red);font-weight:400;margin-right:8px}
+
+  .hero-title{font-family:"Bodoni Moda",serif;font-weight:900;line-height:.88;letter-spacing:-.04em;font-size:clamp(64px,12vw,200px);position:relative}
+  .hero-title .line{display:block;overflow:hidden}
+  .hero-title .line span{display:block;transform:translateY(110%);animation:rise 1.1s cubic-bezier(.77,0,.18,1) forwards}
+  .hero-title .line:nth-child(1) span{animation-delay:.1s}
+  .hero-title .line:nth-child(2) span{animation-delay:.25s}
+  .hero-title .line:nth-child(3) span{animation-delay:.4s}
+  .hero-title em{font-style:italic;color:var(--red);font-weight:400;text-shadow:0 0 40px rgba(255,26,43,.4)}
+  .hero-title .amp{font-style:italic;font-weight:400;opacity:.5}
+
+  .hero-tag{display:flex;align-items:flex-end;justify-content:space-between;gap:40px;margin-top:56px;flex-wrap:wrap;opacity:0;animation:fadeUp 1s .9s forwards}
+  .hero-tag p{max-width:420px;color:var(--ink-dim);font-size:15px;line-height:1.75}
+  .hero-tag p b{color:var(--ink);font-weight:700}
+
+  .hero-scroll{font-family:"JetBrains Mono",monospace;font-size:11px;letter-spacing:.3em;text-transform:uppercase;display:flex;align-items:center;gap:14px;color:var(--ink-dim)}
+  .hero-scroll .arrow{width:40px;height:1px;background:var(--red);position:relative;animation:scrollLine 2s infinite}
+  @keyframes scrollLine{0%,100%{transform:scaleX(1);opacity:1}50%{transform:scaleX(.4);opacity:.5}}
+
+  .hero-corner{position:absolute;font-family:"JetBrains Mono",monospace;font-size:10px;letter-spacing:.3em;color:var(--ink-dim);text-transform:uppercase;z-index:2}
+  .hero-corner.tl{top:90px;left:48px;opacity:0;animation:fadeIn 1.5s 1.2s forwards}
+  .hero-corner.br{bottom:48px;right:48px;opacity:0;animation:fadeIn 1.5s 1.3s forwards;text-align:right}
+  .hero-corner .blink{display:inline-block;width:6px;height:6px;background:var(--red);border-radius:50%;margin-right:8px;animation:blink 1.2s infinite;vertical-align:middle;box-shadow:0 0 10px var(--red)}
+  @keyframes blink{0%,49%{opacity:1}50%,100%{opacity:.2}}
+
+  @keyframes rise{to{transform:translateY(0)}}
+  @keyframes fadeUp{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}
+  @keyframes fadeIn{to{opacity:1}}
+
+  @media(max-width:720px){
+    .hero{padding:0 22px}
+    .hero-meta{gap:22px;margin-bottom:40px;font-size:9px}
+    .hero-corner.tl{top:70px;left:22px}
+    .hero-corner.br{bottom:24px;right:22px}
+    .hero-tag{margin-top:36px}
+  }
+
+  /* ===== MARQUEE ===== */
+  .marquee{border-top:1px solid var(--line);border-bottom:1px solid var(--line);overflow:hidden;padding:36px 0;background:linear-gradient(90deg,#0a0606,#060505,#0a0606)}
+  .marquee-track{display:flex;gap:80px;white-space:nowrap;animation:slide 40s linear infinite;font-family:"Bodoni Moda",serif;font-style:italic;font-weight:600;font-size:clamp(36px,6vw,90px);letter-spacing:-.02em}
+  .marquee-track span{display:inline-flex;align-items:center;gap:80px;color:var(--ink)}
+  .marquee-track span::after{content:"✺";color:var(--red);font-size:.6em;font-style:normal}
+  @keyframes slide{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+
+  /* ===== SECTION BASE ===== */
+  section{position:relative}
+  .section-head{padding:160px 48px 80px;max-width:1600px;margin:0 auto;display:grid;grid-template-columns:1fr 2fr;gap:64px;align-items:end}
+  .section-num{font-family:"JetBrains Mono",monospace;font-size:11px;letter-spacing:.3em;color:var(--red);text-transform:uppercase}
+  .section-num::before{content:"";display:inline-block;width:40px;height:1px;background:var(--red);vertical-align:middle;margin-right:14px}
+  .section-title{font-family:"Bodoni Moda",serif;font-weight:900;font-size:clamp(48px,7vw,110px);line-height:.95;letter-spacing:-.03em;margin-top:20px}
+  .section-title em{font-style:italic;color:var(--red);font-weight:400}
+  .section-lead{color:var(--ink-dim);font-size:16px;line-height:1.8;max-width:520px}
+  @media(max-width:900px){.section-head{grid-template-columns:1fr;padding:100px 22px 50px;gap:30px}}
+
+  /* ===== ABOUT / CAPABILITIES ===== */
+  .capabilities{max-width:1600px;margin:0 auto;padding:0 48px 80px;display:grid;grid-template-columns:repeat(3,1fr);gap:0;border-top:1px solid var(--line)}
+  .cap{padding:48px 36px;border-right:1px solid var(--line);position:relative;transition:background .4s}
+  .cap:last-child{border-right:none}
+  .cap:hover{background:rgba(255,26,43,.04)}
+  .cap:hover .cap-icon{color:var(--red);transform:rotate(12deg) scale(1.1)}
+  .cap-num{font-family:"JetBrains Mono",monospace;font-size:11px;color:var(--red);letter-spacing:.2em}
+  .cap-icon{font-size:48px;color:var(--ink);margin:24px 0;transition:transform .5s cubic-bezier(.7,0,.3,1),color .4s;display:inline-block;font-family:"Bodoni Moda",serif;font-style:italic}
+  .cap-title{font-family:"Bodoni Moda",serif;font-size:28px;font-weight:600;margin-bottom:16px;letter-spacing:-.01em}
+  .cap-desc{color:var(--ink-dim);font-size:14px;line-height:1.8}
+  .cap-tags{display:flex;gap:8px;flex-wrap:wrap;margin-top:24px}
+  .cap-tags span{font-family:"JetBrains Mono",monospace;font-size:10px;padding:4px 10px;border:1px solid var(--line);border-radius:999px;color:var(--ink-dim);letter-spacing:.1em}
+  @media(max-width:900px){.capabilities{grid-template-columns:1fr;padding:0 22px 40px} .cap{border-right:none;border-bottom:1px solid var(--line)} .cap:last-child{border-bottom:none}}
+
+  /* ===== WORK GRID ===== */
+  .work{max-width:1600px;margin:0 auto;padding:0 48px 120px}
+  .work-filter{display:flex;gap:24px;margin-bottom:48px;font-family:"JetBrains Mono",monospace;font-size:11px;letter-spacing:.22em;text-transform:uppercase;flex-wrap:wrap;padding-bottom:24px;border-bottom:1px solid var(--line)}
+  .work-filter button{background:none;border:none;color:var(--ink-dim);cursor:none;padding:6px 0;transition:color .3s;font:inherit;position:relative}
+  .work-filter button.active,.work-filter button:hover{color:var(--ink)}
+  .work-filter button.active::after{content:"";position:absolute;left:0;right:0;bottom:-24px;height:1px;background:var(--red);box-shadow:0 0 10px var(--red)}
+
+  .work-grid{display:grid;grid-template-columns:repeat(12,1fr);gap:24px}
+  .card{position:relative;overflow:hidden;background:#0a0707;border:1px solid var(--line);opacity:0;transform:translateY(40px);transition:opacity .8s,transform .8s,border-color .5s}
+  .card.in{opacity:1;transform:translateY(0)}
+  .card:hover{border-color:var(--red)}
+  .card:hover .card-img{transform:scale(1.06)}
+  .card:hover .card-img::after{opacity:.7}
+  .card:hover .card-meta{transform:translateY(0);opacity:1}
+  .card:hover .card-play{transform:translate(-50%,-50%) scale(1);opacity:1}
+  .card-img{position:relative;width:100%;height:100%;overflow:hidden;transition:transform 1s cubic-bezier(.23,1,.32,1)}
+  .card-img img{width:100%;height:100%;object-fit:cover;filter:grayscale(.3) contrast(1.1)}
+  .card-img::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,transparent 30%,rgba(0,0,0,.95));opacity:.5;transition:opacity .5s}
+  .card-play{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%) scale(.8);opacity:0;transition:all .5s cubic-bezier(.7,0,.3,1);width:72px;height:72px;border:1px solid var(--red);border-radius:50%;display:flex;align-items:center;justify-content:center;background:rgba(255,26,43,.1);backdrop-filter:blur(4px);z-index:3}
+  .card-play::before{content:"";width:0;height:0;border-left:14px solid var(--red);border-top:9px solid transparent;border-bottom:9px solid transparent;margin-left:4px}
+  .card-meta{position:absolute;left:0;right:0;bottom:0;padding:28px 32px;transform:translateY(8px);opacity:.85;transition:all .5s;z-index:2}
+  .card-tag{font-family:"JetBrains Mono",monospace;font-size:10px;letter-spacing:.25em;color:var(--red);text-transform:uppercase;margin-bottom:10px;display:flex;justify-content:space-between;align-items:center}
+  .card-tag .year{color:var(--ink-dim)}
+  .card-title{font-family:"Bodoni Moda",serif;font-size:22px;font-weight:600;line-height:1.15;letter-spacing:-.01em}
+  .card-client{font-size:12px;color:var(--ink-dim);margin-top:6px;font-family:"JetBrains Mono",monospace;letter-spacing:.1em}
+
+  /* Asymmetric grid spans */
+  .card.span-7{grid-column:span 7;aspect-ratio:16/10}
+  .card.span-5{grid-column:span 5;aspect-ratio:4/5}
+  .card.span-6{grid-column:span 6;aspect-ratio:3/2}
+  .card.span-4{grid-column:span 4;aspect-ratio:4/5}
+  .card.span-8{grid-column:span 8;aspect-ratio:16/9}
+  .card.span-12{grid-column:span 12;aspect-ratio:21/9}
+  .card.span-3{grid-column:span 3;aspect-ratio:3/4}
+  .card.span-9{grid-column:span 9;aspect-ratio:16/9}
+
+  @media(max-width:1100px){
+    .work{padding:0 22px 80px}
+    .card.span-7,.card.span-5,.card.span-6,.card.span-4,.card.span-8,.card.span-9{grid-column:span 6}
+    .card.span-12{grid-column:span 12}
+    .card.span-3{grid-column:span 6}
+  }
+  @media(max-width:640px){
+    .card{grid-column:span 12 !important;aspect-ratio:4/5}
+  }
+
+  /* ===== AI SECTION ===== */
+  .ai-section{position:relative;padding:160px 48px;overflow:hidden;background:linear-gradient(180deg,#060505,#0a0304 50%,#060505)}
+  .ai-section::before{
+    content:"";position:absolute;inset:0;
+    background:radial-gradient(circle at 70% 50%,rgba(255,26,43,.14),transparent 50%);
+    pointer-events:none;
+  }
+  .ai-wrap{max-width:1600px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center;position:relative;z-index:2}
+  .ai-label{font-family:"JetBrains Mono",monospace;font-size:11px;letter-spacing:.3em;color:var(--red);text-transform:uppercase;margin-bottom:24px}
+  .ai-label::before{content:"▲ ";letter-spacing:0}
+  .ai-title{font-family:"Bodoni Moda",serif;font-weight:900;font-size:clamp(44px,6vw,88px);line-height:.95;letter-spacing:-.03em;margin-bottom:32px}
+  .ai-title em{font-style:italic;color:var(--red);font-weight:400}
+  .ai-text{color:var(--ink-dim);font-size:16px;line-height:1.9;margin-bottom:32px;max-width:520px}
+  .ai-text b{color:var(--ink);font-weight:700}
+  .ai-list{display:flex;flex-direction:column;gap:16px;margin-top:40px}
+  .ai-item{display:flex;gap:20px;align-items:flex-start;padding:20px 0;border-top:1px solid var(--line);transition:padding-left .4s}
+  .ai-item:hover{padding-left:12px}
+  .ai-item:last-child{border-bottom:1px solid var(--line)}
+  .ai-item-num{font-family:"JetBrains Mono",monospace;font-size:12px;color:var(--red);min-width:36px}
+  .ai-item-body strong{font-family:"Bodoni Moda",serif;font-size:20px;font-weight:600;display:block;margin-bottom:4px}
+  .ai-item-body span{font-size:13px;color:var(--ink-dim);line-height:1.7}
+
+  /* Visual: AI orb */
+  .ai-visual{position:relative;aspect-ratio:1;display:flex;align-items:center;justify-content:center}
+  .orb{position:relative;width:100%;max-width:480px;aspect-ratio:1}
+  .orb svg{width:100%;height:100%}
+  .orb-ring{fill:none;stroke:var(--red);stroke-width:.5;opacity:.3}
+  .orb-core{filter:blur(40px);animation:pulseCore 4s ease-in-out infinite}
+  @keyframes pulseCore{0%,100%{opacity:.6;transform:scale(1)}50%{opacity:.9;transform:scale(1.08)}}
+  .orb-rotate{animation:spin 40s linear infinite;transform-origin:center}
+  .orb-rotate-rev{animation:spin 60s linear infinite reverse;transform-origin:center}
+  @keyframes spin{to{transform:rotate(360deg)}}
+  .orb-label{position:absolute;font-family:"JetBrains Mono",monospace;font-size:10px;color:var(--ink-dim);letter-spacing:.2em;text-transform:uppercase}
+  .orb-label.t{top:4%;left:50%;transform:translateX(-50%)}
+  .orb-label.r{right:-8px;top:48%}
+  .orb-label.b{bottom:0;left:50%;transform:translateX(-50%)}
+  .orb-label.l{left:-8px;top:48%}
+
+  @media(max-width:900px){
+    .ai-section{padding:100px 22px}
+    .ai-wrap{grid-template-columns:1fr;gap:60px}
+    .ai-visual{max-width:380px;margin:0 auto}
+  }
+
+  /* ===== STATS ===== */
+  .stats{max-width:1600px;margin:0 auto;padding:0 48px 120px;display:grid;grid-template-columns:repeat(4,1fr);gap:0;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+  .stat{padding:56px 32px;border-right:1px solid var(--line);position:relative}
+  .stat:last-child{border-right:none}
+  .stat-num{font-family:"Bodoni Moda",serif;font-weight:900;font-size:clamp(48px,6vw,88px);line-height:1;letter-spacing:-.04em;color:var(--ink)}
+  .stat-num em{color:var(--red);font-style:italic}
+  .stat-label{font-family:"JetBrains Mono",monospace;font-size:10px;letter-spacing:.3em;color:var(--ink-dim);text-transform:uppercase;margin-top:20px}
+  @media(max-width:900px){.stats{grid-template-columns:repeat(2,1fr);padding:0 22px 80px} .stat{border-bottom:1px solid var(--line)} .stat:nth-child(even){border-right:none}}
+
+  /* ===== CONTACT ===== */
+  .contact{position:relative;padding:160px 48px;text-align:center;overflow:hidden;background:#050303}
+  .contact::before{content:"";position:absolute;inset:0;background:
+    radial-gradient(ellipse at center,rgba(255,26,43,.18),transparent 60%);
+    pointer-events:none;
+  }
+  .contact-eyebrow{font-family:"JetBrains Mono",monospace;font-size:11px;letter-spacing:.3em;color:var(--red);text-transform:uppercase;margin-bottom:32px}
+  .contact-big{font-family:"Bodoni Moda",serif;font-weight:900;font-size:clamp(64px,12vw,180px);line-height:.88;letter-spacing:-.04em;margin-bottom:48px;position:relative;z-index:2}
+  .contact-big em{font-style:italic;color:var(--red);font-weight:400}
+  .contact-sub{color:var(--ink-dim);font-size:18px;max-width:560px;margin:0 auto 48px;line-height:1.8;position:relative;z-index:2}
+  .contact-btn{display:inline-flex;align-items:center;gap:16px;padding:22px 44px;border:1px solid var(--red);color:#fff;font-family:"JetBrains Mono",monospace;font-size:12px;letter-spacing:.3em;text-transform:uppercase;background:rgba(255,26,43,.05);transition:all .4s cubic-bezier(.7,0,.3,1);position:relative;overflow:hidden;z-index:2}
+  .contact-btn::before{content:"";position:absolute;inset:0;background:var(--red);transform:translateY(100%);transition:transform .4s cubic-bezier(.7,0,.3,1);z-index:-1}
+  .contact-btn:hover::before{transform:translateY(0)}
+  .contact-btn:hover{color:#fff;box-shadow:0 0 40px rgba(255,26,43,.5)}
+  .contact-btn .arrow{transition:transform .4s}
+  .contact-btn:hover .arrow{transform:translateX(6px)}
+
+  .contact-socials{display:flex;gap:32px;justify-content:center;margin-top:64px;font-family:"JetBrains Mono",monospace;font-size:11px;letter-spacing:.25em;text-transform:uppercase;position:relative;z-index:2;flex-wrap:wrap}
+  .contact-socials a{color:var(--ink-dim);transition:color .3s;padding:8px 0;position:relative}
+  .contact-socials a:hover{color:var(--red)}
+
+  /* ===== FOOTER ===== */
+  footer{padding:48px;border-top:1px solid var(--line);display:flex;justify-content:space-between;align-items:center;font-family:"JetBrains Mono",monospace;font-size:10px;letter-spacing:.2em;color:var(--ink-dim);text-transform:uppercase;flex-wrap:wrap;gap:20px}
+  footer .dot{width:6px;height:6px;background:var(--red);border-radius:50%;display:inline-block;margin-right:8px;animation:blink 1.2s infinite;box-shadow:0 0 8px var(--red)}
+  @media(max-width:720px){footer{padding:32px 22px}}
+
+  /* ===== Reveal ===== */
+  .reveal{opacity:0;transform:translateY(40px);transition:opacity 1s cubic-bezier(.23,1,.32,1),transform 1s cubic-bezier(.23,1,.32,1)}
+  .reveal.in{opacity:1;transform:translateY(0)}
+
+  /* ===== Text scramble hover ===== */
+  .scramble{display:inline-block}
+</style>
+</head>
+<body>
+
+<!-- Grain texture -->
+<div class="grain">
+  <svg xmlns="http://www.w3.org/2000/svg">
+    <filter id="n"><feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="3" stitchTiles="stitch"/></filter>
+    <rect width="100%" height="100%" filter="url(#n)"/>
+  </svg>
+</div>
+
+<!-- Custom cursor -->
+<div class="cursor-ring" id="cursorRing"></div>
+<div class="cursor-dot" id="cursorDot"></div>
+
+<!-- Progress -->
+<div class="progress" id="progress"></div>
+
+<!-- Nav -->
+<nav>
+  <a href="#top" class="logo">H<span>.</span>T<span>.</span></a>
+  <div class="nav-links">
+    <a href="#work">Work</a>
+    <a href="#ai">AI / Method</a>
+    <a href="#about">About</a>
+    <a href="#contact">Contact</a>
+  </div>
+</nav>
+
+<!-- ============ HERO ============ -->
+<section class="hero" id="top">
+  <div class="hero-bg"></div>
+  <div class="hero-grid"></div>
+
+  <div class="hero-corner tl">
+    <span class="blink"></span>REC · PORTFOLIO 2026 · KYOTO / TOKYO
+  </div>
+  <div class="hero-corner br">
+    N 34°41′ / E 135°46′<br>FILM · SOCIAL · AI
+  </div>
+
+  <div class="hero-content">
+    <div class="hero-meta">
+      <span><b>01</b>FILM DIRECTOR</span>
+      <span><b>02</b>SOCIAL STRATEGIST</span>
+      <span><b>03</b>AI CREATIVE</span>
+    </div>
+
+    <h1 class="hero-title">
+      <div class="line"><span>HIKARU</span></div>
+      <div class="line"><span><em>Tsutsui</em><span class="amp"> /</span></span></div>
+      <div class="line"><span>FILMMAKER.</span></div>
+    </h1>
+
+    <div class="hero-tag">
+      <p>
+        <b>映像で物語を、SNSで文化を、AIで未来を設計する。</b><br>
+        企画から撮影・編集・運用まで一貫して手がけるクリエイター。
+        Sony、Adobe、Toyota、JFA をはじめとするブランドの "伝わる" 映像を設計しています。
+      </p>
+      <div class="hero-scroll">
+        <span>Scroll</span>
+        <span class="arrow"></span>
+        <span>Work</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ MARQUEE ============ -->
+<div class="marquee">
+  <div class="marquee-track">
+    <span>Film Direction</span><span>Social Strategy</span><span>AI Workflow</span><span>Brand Story</span><span>Short Form</span><span>TVCM</span>
+    <span>Film Direction</span><span>Social Strategy</span><span>AI Workflow</span><span>Brand Story</span><span>Short Form</span><span>TVCM</span>
+  </div>
+</div>
+
+<!-- ============ ABOUT / CAPABILITIES ============ -->
+<section id="about">
+  <div class="section-head reveal">
+    <div>
+      <div class="section-num">01 — Philosophy</div>
+      <h2 class="section-title">Story<em>tell</em>ing<br>meets <em>system</em>.</h2>
+    </div>
+    <p class="section-lead">
+      "良い映像" だけでは届かない時代。クリエイティブの熱量とデータの戦略、そしてAIによる制作の再設計。三つの軸を重ね合わせることで、ブランドの物語を加速させます。
+    </p>
+  </div>
+
+  <div class="capabilities">
+    <div class="cap reveal">
+      <div class="cap-num">→ 01</div>
+      <div class="cap-icon">F</div>
+      <h3 class="cap-title">Film Direction</h3>
+      <p class="cap-desc">TVCM、ブランドフィルム、ショートドラマ。企画・絵コンテ・撮影・編集までワンストップ。映像の "温度" を設計する。</p>
+      <div class="cap-tags"><span>TVCM</span><span>Brand Film</span><span>Short Drama</span><span>MV</span></div>
+    </div>
+    <div class="cap reveal">
+      <div class="cap-num">→ 02</div>
+      <div class="cap-icon">S</div>
+      <h3 class="cap-title">Social Strategy</h3>
+      <p class="cap-desc">TikTok、Reels、Shorts の設計と運用。アルゴリズムと感情を両立させる短尺動画で、フォロワーではなくファンを増やす。</p>
+      <div class="cap-tags"><span>TikTok</span><span>Reels</span><span>YouTube</span><span>Account Growth</span></div>
+    </div>
+    <div class="cap reveal">
+      <div class="cap-num">→ 03</div>
+      <div class="cap-icon">A</div>
+      <h3 class="cap-title">AI × Creative</h3>
+      <p class="cap-desc">生成AIを制作フローに統合。企画のブレストから絵コンテ、素材生成、編集アシストまで。スピードと表現の両方を拡張する。</p>
+      <div class="cap-tags"><span>Sora</span><span>Runway</span><span>ComfyUI</span><span>Claude</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ WORK ============ -->
+<section id="work">
+  <div class="section-head reveal">
+    <div>
+      <div class="section-num">02 — Selected Work</div>
+      <h2 class="section-title">Selected<br><em>Works</em>.</h2>
+    </div>
+    <p class="section-lead">
+      ナショナルクライアントから自治体、スタートアップまで。"伝える" のではなく "届ける" ための映像を設計してきました。
+    </p>
+  </div>
+
+  <div class="work">
+    <div class="work-filter">
+      <button class="active" data-f="all">All Work</button>
+      <button data-f="film">Film / CM</button>
+      <button data-f="social">Social</button>
+      <button data-f="brand">Brand</button>
+    </div>
+
+    <div class="work-grid">
+
+      <a class="card span-7 reveal" data-cat="brand" href="https://bask0530ht.myportfolio.com/sony-experia">
+        <div class="card-img"><img src="https://cdn.myportfolio.com/a0caecdb-aa1f-4a1f-9633-32218c293a90/7b184d3b-a174-40c7-849c-cd3a66342e84_rwc_32x0x1013x1350x32.jpg" alt="Sony Xperia"></div>
+        <div class="card-play"></div>
+        <div class="card-meta">
+          <div class="card-tag"><span>◆ Brand Film</span><span class="year">2025</span></div>
+          <div class="card-title">Sony Xperia</div>
+          <div class="card-client">SONY · Brand Campaign</div>
+        </div>
+      </a>
+
+      <a class="card span-5 reveal" data-cat="social" href="https://bask0530ht.myportfolio.com/adobe-japan-tiktok">
+        <div class="card-img"><img src="https://cdn.myportfolio.com/a0caecdb-aa1f-4a1f-9633-32218c293a90/df38402f-2846-4d40-bc49-de6316a22c21_rwc_32x0x1013x1350x32.png" alt="Adobe Japan TikTok"></div>
+        <div class="card-play"></div>
+        <div class="card-meta">
+          <div class="card-tag"><span>◆ Social / TikTok</span><span class="year">2024</span></div>
+          <div class="card-title">Adobe Japan — TikTok 企画・撮影・編集</div>
+          <div class="card-client">ADOBE · Account Operation</div>
+        </div>
+      </a>
+
+      <a class="card span-4 reveal" data-cat="film" href="https://bask0530ht.myportfolio.com/tvcm">
+        <div class="card-img"><img src="https://cdn.myportfolio.com/a0caecdb-aa1f-4a1f-9633-32218c293a90/5b911e7f-832d-46fe-b507-e1dfcfbeacbc_rwc_32x0x1013x1350x32.png" alt="姫路セントラルパーク"></div>
+        <div class="card-play"></div>
+        <div class="card-meta">
+          <div class="card-tag"><span>◆ TVCM</span><span class="year">2024</span></div>
+          <div class="card-title">姫路セントラルパーク TVCM</div>
+          <div class="card-client">HIMEJI CENTRAL PARK</div>
+        </div>
+      </a>
+
+      <a class="card span-8 reveal" data-cat="social" href="https://bask0530ht.myportfolio.com/tiktok">
+        <div class="card-img"><img src="https://cdn.myportfolio.com/a0caecdb-aa1f-4a1f-9633-32218c293a90/bfa641e7-84dd-42b9-aacb-2e06b43e92c3_rwc_32x0x1013x1350x32.jpg" alt="近畿大学 TikTok"></div>
+        <div class="card-play"></div>
+        <div class="card-meta">
+          <div class="card-tag"><span>◆ Social / Account</span><span class="year">2025</span></div>
+          <div class="card-title">近畿大学 公式TikTok</div>
+          <div class="card-client">KINDAI UNIVERSITY · Official Account</div>
+        </div>
+      </a>
+
+      <a class="card span-6 reveal" data-cat="brand" href="https://bask0530ht.myportfolio.com/jfa">
+        <div class="card-img"><img src="https://cdn.myportfolio.com/a0caecdb-aa1f-4a1f-9633-32218c293a90/6908bea6-5f0e-482a-b48b-3313259e2880_rwc_32x0x1013x1350x32.jpg" alt="JFA"></div>
+        <div class="card-play"></div>
+        <div class="card-meta">
+          <div class="card-tag"><span>◆ Sports / Brand</span><span class="year">2023</span></div>
+          <div class="card-title">日本サッカー協会 (JFA)</div>
+          <div class="card-client">JAPAN FOOTBALL ASSOCIATION</div>
+        </div>
+      </a>
+
+      <a class="card span-6 reveal" data-cat="brand" href="https://bask0530ht.myportfolio.com/16863a06c88886">
+        <div class="card-img"><img src="https://cdn.myportfolio.com/a0caecdb-aa1f-4a1f-9633-32218c293a90/da5f096c-1d6a-4064-8343-0cdba7ae8898_rwc_32x0x1013x1350x32.jpg" alt="ワコール"></div>
+        <div class="card-play"></div>
+        <div class="card-meta">
+          <div class="card-tag"><span>◆ Fashion / Brand</span><span class="year">2025</span></div>
+          <div class="card-title">Wacoal</div>
+          <div class="card-client">WACOAL · Brand Story</div>
+        </div>
+      </a>
+
+      <a class="card span-4 reveal" data-cat="social" href="https://bask0530ht.myportfolio.com/168661fcd7d4cd">
+        <div class="card-img"><img src="https://cdn.myportfolio.com/a0caecdb-aa1f-4a1f-9633-32218c293a90/8a019887-279a-41f1-a377-1f7597bda950_rwc_32x0x1013x1350x32.jpg" alt="和牛マフィア"></div>
+        <div class="card-play"></div>
+        <div class="card-meta">
+          <div class="card-tag"><span>◆ Social / Food</span><span class="year">2025</span></div>
+          <div class="card-title">和牛マフィア</div>
+          <div class="card-client">WAGYU MAFIA</div>
+        </div>
+      </a>
+
+      <a class="card span-4 reveal" data-cat="film" href="https://bask0530ht.myportfolio.com/zono-school">
+        <div class="card-img"><img src="https://cdn.myportfolio.com/a0caecdb-aa1f-4a1f-9633-32218c293a90/5527c212-273d-49e1-bb0a-801dc96483d0_rwc_32x0x1013x1350x32.jpg" alt="zono school"></div>
+        <div class="card-play"></div>
+        <div class="card-meta">
+          <div class="card-tag"><span>◆ Brand Film</span><span class="year">2023</span></div>
+          <div class="card-title">zono school</div>
+          <div class="card-client">ZONO SCHOOL</div>
+        </div>
+      </a>
+
+      <a class="card span-4 reveal" data-cat="brand" href="https://bask0530ht.myportfolio.com/toyota">
+        <div class="card-img"><img src="https://cdn.myportfolio.com/a0caecdb-aa1f-4a1f-9633-32218c293a90/495ec06b-4ab2-4b64-a17b-966db404f605_rwc_0x186x1002x1334x32.png" alt="Toyota"></div>
+        <div class="card-play"></div>
+        <div class="card-meta">
+          <div class="card-tag"><span>◆ Automotive</span><span class="year">2023</span></div>
+          <div class="card-title">Toyota</div>
+          <div class="card-client">TOYOTA · Brand</div>
+        </div>
+      </a>
+
+      <a class="card span-6 reveal" data-cat="social" href="https://bask0530ht.myportfolio.com/tiktok-yoasobi">
+        <div class="card-img"><img src="https://cdn.myportfolio.com/a0caecdb-aa1f-4a1f-9633-32218c293a90/3e420ce2-a7aa-4a95-bd21-9227df57107a_rwc_0x28x700x932x32.jpg" alt="YOASOBI TikTok"></div>
+        <div class="card-play"></div>
+        <div class="card-meta">
+          <div class="card-tag"><span>◆ Social / First Case</span><span class="year">2020</span></div>
+          <div class="card-title">TikTok 日本初 映画キャストアカウント — YOASOBI「たぶん」映画化</div>
+          <div class="card-client">TIKTOK × YOASOBI</div>
+        </div>
+      </a>
+
+      <a class="card span-6 reveal" data-cat="brand" href="https://bask0530ht.myportfolio.com/korea-tourism-organization-visit-korea">
+        <div class="card-img"><img src="https://cdn.myportfolio.com/a0caecdb-aa1f-4a1f-9633-32218c293a90/89256664-5c4f-4687-a439-1aa04e1223c3_rwc_0x186x1002x1334x32.png" alt="Visit Korea"></div>
+        <div class="card-play"></div>
+        <div class="card-meta">
+          <div class="card-tag"><span>◆ Tourism</span><span class="year">2023</span></div>
+          <div class="card-title">Korea Tourism Organization — Visit Korea</div>
+          <div class="card-client">KTO · Web / PR</div>
+        </div>
+      </a>
+
+      <a class="card span-4 reveal" data-cat="brand" href="https://bask0530ht.myportfolio.com/hilton-okinawa-sesoko-resorthotel-pr">
+        <div class="card-img"><img src="https://cdn.myportfolio.com/a0caecdb-aa1f-4a1f-9633-32218c293a90/2f85365c-fbdb-414b-ac76-067fd24b783d_rwc_0x173x956x1273x32.png" alt="Hilton Okinawa"></div>
+        <div class="card-play"></div>
+        <div class="card-meta">
+          <div class="card-tag"><span>◆ Hospitality</span><span class="year">2023</span></div>
+          <div class="card-title">Hilton Okinawa Sesoko Resort</div>
+          <div class="card-client">HILTON · Hotel PR</div>
+        </div>
+      </a>
+
+      <a class="card span-4 reveal" data-cat="brand" href="https://bask0530ht.myportfolio.com/conrad-osakahotel-pr-short-video">
+        <div class="card-img"><img src="https://cdn.myportfolio.com/a0caecdb-aa1f-4a1f-9633-32218c293a90/ef83832d-0b46-4978-997f-90c3d1e0ce26_rwc_0x186x1002x1334x32.png" alt="Conrad Osaka"></div>
+        <div class="card-play"></div>
+        <div class="card-meta">
+          <div class="card-tag"><span>◆ Hospitality</span><span class="year">2023</span></div>
+          <div class="card-title">Conrad Osaka — Hotel PR Short</div>
+          <div class="card-client">CONRAD · Short Video</div>
+        </div>
+      </a>
+
+      <a class="card span-4 reveal" data-cat="film" href="https://bask0530ht.myportfolio.com/kyoto-international-manga-anime-fair-pr">
+        <div class="card-img"><img src="https://cdn.myportfolio.com/a0caecdb-aa1f-4a1f-9633-32218c293a90/dcbc8f72-27ee-430d-b071-d4f88eafcad8_rwc_32x0x1013x1350x32.jpg" alt="京都国際マンガアニメフェア"></div>
+        <div class="card-play"></div>
+        <div class="card-meta">
+          <div class="card-tag"><span>◆ Culture / PR</span><span class="year">2023</span></div>
+          <div class="card-title">Kyoto International Manga Anime Fair</div>
+          <div class="card-client">KYOMAF · PR</div>
+        </div>
+      </a>
+
+      <a class="card span-6 reveal" data-cat="social" href="https://bask0530ht.myportfolio.com/ishikawa-prefecture-bytedancetiktok">
+        <div class="card-img"><img src="https://cdn.myportfolio.com/a0caecdb-aa1f-4a1f-9633-32218c293a90/08f733c1-951a-4aad-8e46-ea1b265f1219_rwc_32x0x1013x1350x32.jpg" alt="石川県 × TikTok"></div>
+        <div class="card-play"></div>
+        <div class="card-meta">
+          <div class="card-tag"><span>◆ Government × Social</span><span class="year">2023</span></div>
+          <div class="card-title">Ishikawa Prefecture × ByteDance (TikTok)</div>
+          <div class="card-client">ISHIKAWA × TIKTOK</div>
+        </div>
+      </a>
+
+      <a class="card span-6 reveal" data-cat="brand" href="https://bask0530ht.myportfolio.com/dell-technologies">
+        <div class="card-img"><img src="https://cdn.myportfolio.com/a0caecdb-aa1f-4a1f-9633-32218c293a90/798f61b8-1575-4b26-b6cc-5e5bd6574633_rwc_32x0x1013x1350x32.jpg" alt="Dell Technologies"></div>
+        <div class="card-play"></div>
+        <div class="card-meta">
+          <div class="card-tag"><span>◆ Tech / Brand</span><span class="year">2023</span></div>
+          <div class="card-title">Dell Technologies</div>
+          <div class="card-client">DELL · Brand</div>
+        </div>
+      </a>
+
+    </div>
+  </div>
+</section>
+
+<!-- ============ AI SECTION ============ -->
+<section class="ai-section" id="ai">
+  <div class="ai-wrap">
+    <div class="reveal">
+      <div class="ai-label">03 — AI-Augmented Creative</div>
+      <h2 class="ai-title">
+        Human <em>craft.</em><br>Machine <em>speed.</em>
+      </h2>
+      <p class="ai-text">
+        <b>AIはツールではなく、共同制作者。</b>
+        企画のブレインストーミングから絵コンテ、素材生成、編集補助、分析までを AI ワークフローで再設計することで、従来の 3 倍のスピードと、これまで不可能だった表現を両立しています。
+      </p>
+
+      <div class="ai-list">
+        <div class="ai-item">
+          <div class="ai-item-num">/01</div>
+          <div class="ai-item-body">
+            <strong>Pre-Production</strong>
+            <span>Claude でコピー・シナリオ設計、Midjourney / Runway で絵コンテとムードボードを即日生成。</span>
+          </div>
+        </div>
+        <div class="ai-item">
+          <div class="ai-item-num">/02</div>
+          <div class="ai-item-body">
+            <strong>Production</strong>
+            <span>Sora / Runway Gen-3 によるコンセプト映像生成。実写との組み合わせで撮影不可能な画を実現。</span>
+          </div>
+        </div>
+        <div class="ai-item">
+          <div class="ai-item-num">/03</div>
+          <div class="ai-item-body">
+            <strong>Post & Distribution</strong>
+            <span>AI音声・字幕・編集アシスト、Social 向けのマルチサイズ書き出しを半自動化。検証サイクルを高速化。</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="ai-visual reveal">
+      <div class="orb">
+        <svg viewBox="0 0 500 500" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <radialGradient id="core" cx="50%" cy="50%" r="50%">
+              <stop offset="0%" stop-color="#ff3040" stop-opacity="1"/>
+              <stop offset="40%" stop-color="#a60714" stop-opacity=".6"/>
+              <stop offset="100%" stop-color="#060505" stop-opacity="0"/>
+            </radialGradient>
+            <linearGradient id="ring-grad" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%" stop-color="#ff1a2b"/>
+              <stop offset="100%" stop-color="#ff1a2b" stop-opacity="0"/>
+            </linearGradient>
+          </defs>
+
+          <!-- Core glow -->
+          <circle class="orb-core" cx="250" cy="250" r="80" fill="url(#core)"/>
+
+          <!-- Rotating rings -->
+          <g class="orb-rotate">
+            <circle cx="250" cy="250" r="240" fill="none" stroke="url(#ring-grad)" stroke-width="1" opacity=".5"/>
+            <circle cx="250" cy="250" r="240" fill="none" stroke="#ff1a2b" stroke-width="1" stroke-dasharray="4 12" opacity=".4"/>
+            <circle cx="250" cy="10" r="4" fill="#ff1a2b"/>
+          </g>
+
+          <g class="orb-rotate-rev">
+            <circle cx="250" cy="250" r="190" fill="none" stroke="#ff1a2b" stroke-width=".5" opacity=".4"/>
+            <circle cx="250" cy="250" r="190" fill="none" stroke="#fff" stroke-width=".5" stroke-dasharray="2 30" opacity=".3"/>
+            <circle cx="440" cy="250" r="3" fill="#ff1a2b"/>
+          </g>
+
+          <g class="orb-rotate">
+            <circle cx="250" cy="250" r="140" fill="none" stroke="#fff" stroke-width=".5" opacity=".2"/>
+            <circle cx="250" cy="110" r="2" fill="#fff"/>
+          </g>
+
+          <!-- Tick marks -->
+          <g opacity=".4">
+            <line x1="250" y1="0" x2="250" y2="20" stroke="#ff1a2b"/>
+            <line x1="250" y1="480" x2="250" y2="500" stroke="#ff1a2b"/>
+            <line x1="0" y1="250" x2="20" y2="250" stroke="#ff1a2b"/>
+            <line x1="480" y1="250" x2="500" y2="250" stroke="#ff1a2b"/>
+          </g>
+
+          <!-- Cross -->
+          <g stroke="rgba(255,255,255,.1)" stroke-width=".5">
+            <line x1="250" y1="60" x2="250" y2="440"/>
+            <line x1="60" y1="250" x2="440" y2="250"/>
+          </g>
+
+          <!-- Center text -->
+          <text x="250" y="246" text-anchor="middle" fill="#ff1a2b" font-family="JetBrains Mono,monospace" font-size="10" letter-spacing="3">AI · CORE</text>
+          <text x="250" y="266" text-anchor="middle" fill="#fff" font-family="Bodoni Moda,serif" font-size="22" font-style="italic" font-weight="600">H.T / 2026</text>
+        </svg>
+
+        <span class="orb-label t">+ System Active</span>
+        <span class="orb-label r">v.04</span>
+        <span class="orb-label b">Sora / Runway / Claude</span>
+        <span class="orb-label l">Kyoto</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ STATS ============ -->
+<section>
+  <div class="stats">
+    <div class="stat reveal">
+      <div class="stat-num" data-count="50">0<em>+</em></div>
+      <div class="stat-label">Brand Projects</div>
+    </div>
+    <div class="stat reveal">
+      <div class="stat-num" data-count="100">0<em>M+</em></div>
+      <div class="stat-label">Total Social Views</div>
+    </div>
+    <div class="stat reveal">
+      <div class="stat-num" data-count="7">0<em>yr</em></div>
+      <div class="stat-label">Years Experience</div>
+    </div>
+    <div class="stat reveal">
+      <div class="stat-num"><em>∞</em></div>
+      <div class="stat-label">Ideas Per Week</div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ CONTACT ============ -->
+<section class="contact" id="contact">
+  <div class="contact-eyebrow">04 — Let's create together</div>
+  <h2 class="contact-big reveal">
+    Got a story<br><em>to tell?</em>
+  </h2>
+  <p class="contact-sub reveal">
+    映像制作、SNS 運用、AI クリエイティブに関するご相談はお気軽に。<br>
+    ブランドの新しい "語り方" を、一緒に。
+  </p>
+  <a class="contact-btn" href="mailto:hello@example.com">
+    <span>Start a Project</span>
+    <span class="arrow">→</span>
+  </a>
+
+  <div class="contact-socials">
+    <a href="#">Instagram</a>
+    <a href="#">TikTok</a>
+    <a href="#">YouTube</a>
+    <a href="#">X / Twitter</a>
+    <a href="mailto:hello@example.com">Email</a>
+  </div>
+</section>
+
+<footer>
+  <div><span class="dot"></span>HIKARU TSUTSUI · PORTFOLIO 2026</div>
+  <div>© All Rights Reserved · Built with Craft + AI</div>
+</footer>
+
+<script>
+  // ===== Custom Cursor =====
+  const dot=document.getElementById('cursorDot');
+  const ring=document.getElementById('cursorRing');
+  let mx=0,my=0,rx=0,ry=0;
+  window.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;dot.style.transform=`translate(${mx}px,${my}px) translate(-50%,-50%)`});
+  function animateRing(){rx+=(mx-rx)*.18;ry+=(my-ry)*.18;ring.style.transform=`translate(${rx}px,${ry}px) translate(-50%,-50%)`;requestAnimationFrame(animateRing)}
+  animateRing();
+  document.querySelectorAll('a,button,.card').forEach(el=>{
+    el.addEventListener('mouseenter',()=>ring.classList.add('hover'));
+    el.addEventListener('mouseleave',()=>ring.classList.remove('hover'));
+  });
+
+  // ===== Scroll Progress =====
+  const prog=document.getElementById('progress');
+  window.addEventListener('scroll',()=>{
+    const s=document.documentElement.scrollTop||document.body.scrollTop;
+    const h=(document.documentElement.scrollHeight||document.body.scrollHeight)-document.documentElement.clientHeight;
+    prog.style.width=((s/h)*100)+'%';
+  });
+
+  // ===== Reveal on scroll =====
+  const io=new IntersectionObserver((entries)=>{
+    entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}})
+  },{threshold:.12,rootMargin:'0px 0px -60px 0px'});
+  document.querySelectorAll('.reveal,.card').forEach(el=>io.observe(el));
+
+  // ===== Work filter =====
+  const filters=document.querySelectorAll('.work-filter button');
+  const cards=document.querySelectorAll('.work-grid .card');
+  filters.forEach(btn=>{
+    btn.addEventListener('click',()=>{
+      filters.forEach(b=>b.classList.remove('active'));
+      btn.classList.add('active');
+      const f=btn.dataset.f;
+      cards.forEach(c=>{
+        if(f==='all'||c.dataset.cat===f){
+          c.style.display='block';
+          requestAnimationFrame(()=>c.classList.add('in'));
+        }else{
+          c.style.display='none';
+        }
+      });
+    });
+  });
+
+  // ===== Count up =====
+  const countUp=(el,target)=>{
+    let n=0;const step=Math.max(1,Math.ceil(target/50));
+    const tick=()=>{n+=step;if(n>=target){n=target}
+      const em=el.querySelector('em');
+      el.textContent=n;if(em)el.appendChild(em);
+      if(n<target)requestAnimationFrame(tick);
+    };tick();
+  };
+  const countIO=new IntersectionObserver((entries)=>{
+    entries.forEach(e=>{
+      if(e.isIntersecting){
+        const t=parseInt(e.target.dataset.count);
+        if(!isNaN(t))countUp(e.target,t);
+        countIO.unobserve(e.target);
+      }
+    })
+  },{threshold:.5});
+  document.querySelectorAll('.stat-num[data-count]').forEach(el=>countIO.observe(el));
+
+  // ===== Subtle parallax on hero =====
+  const hero=document.querySelector('.hero-grid');
+  window.addEventListener('scroll',()=>{
+    const y=window.scrollY;
+    if(y<900&&hero) hero.style.transform=`translateY(${y*.15}px)`;
+  });
+
+  // ===== Smooth anchor (respect scroll-behavior:smooth) =====
+  document.querySelectorAll('a[href^="#"]').forEach(a=>{
+    a.addEventListener('click',e=>{
+      const id=a.getAttribute('href');
+      if(id.length>1){const t=document.querySelector(id);if(t){e.preventDefault();t.scrollIntoView({behavior:'smooth',block:'start'})}}
+    });
+  });
+</script>
+
+</body>
+</html>
